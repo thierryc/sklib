@@ -5,6 +5,7 @@ import isCI from 'is-ci'
 import chalk from 'chalk'
 import yargs from 'yargs'
 import create from './commands/create'
+import login from './commands/login'
 import publish from './commands/publish'
 import pkg from '../package.json'
 import checkVersion from '../check'
@@ -46,6 +47,7 @@ const changelog = `https://sklib.io/release-notes/`
 yargs
   .scriptName('sklib')
   .command(create)
+  .command(login)
   .command(publish)
   .usage(
     `${pkg.version}

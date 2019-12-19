@@ -31,11 +31,15 @@ var _asyncCommand = _interopRequireDefault(require("../utils/async-command"));
 
 var _getGitUser = _interopRequireDefault(require("../utils/get-git-user"));
 
+var _auth = _interopRequireDefault(require("../utils/auth"));
+
+var _github = _interopRequireDefault(require("../utils/github"));
+
 var _utils = require("../utils");
 
 var _setup = require("../utils/setup");
 
-const TEMPLATE = 'thierryc/sklib-default-template';
+const TEMPLATE = 'thierryc/sklib';
 const RGX = /\.(woff2?|ttf|eot|jpe?g|ico|png|gif|mp4|mov|ogg|webm)(\?.*)?$/i;
 
 const isMedia = str => RGX.test(str);
@@ -75,7 +79,7 @@ var _default = (0, _asyncCommand.default)({
     template: {
       description: 'The repository hosting the template to start from',
       type: 'string',
-      default: 'thierryc/sklib-default-template'
+      default: 'thierryc/sklib'
     },
     force: {
       description: 'Force option to create the directory for the new app',
@@ -238,8 +242,11 @@ var _default = (0, _asyncCommand.default)({
       if (gitUser && gitUser.username && gitUser.email) {
         pkgData.author = `${gitUser.username.trim()} <${gitUser.email.trim()}>`;
       }
-    } // Update `package.json` key
+    }
 
+    const token = await _auth.default.getToken();
+    const githubUser = await _github.default.getUser(token);
+    console.log(githubUser); // Update `package.json` key
 
     if (pkgData) {
       print('Updating `name` within `package.json` file');
@@ -254,17 +261,6 @@ var _default = (0, _asyncCommand.default)({
       if (!pkgData.sklib.main || pkgData.sklib.main === 'library.sketch') {
         pkgData.sklib.main = `${argv.slug}.sketch`;
       }
-    } // Find a `manifest.json`; use the first match, if any
-
-
-    const files = await (0, _globby.default)(`${target}/**/manifest.json`);
-    const manifest = files[0] && JSON.parse((await _fs.default.readFile(files[0])));
-
-    if (manifest && manifest.menu) {
-      print('Updating `title` within `manifest.json` file');
-      manifest.menu.title = argv.name; // Write changes to `manifest.json`
-
-      await _fs.default.writeFile(files[0], JSON.stringify(manifest, null, 2));
     }
 
     if (pkgData) {

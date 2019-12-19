@@ -10,6 +10,9 @@ import checkDevMode from '../utils/check-dev-mode'
 import replaceArraysByLastItem from '../utils/replace-arrays-by-last-item'
 import asyncCommand from '../utils/async-command'
 import getGitUser from '../utils/get-git-user'
+
+import auth from '../utils/auth'
+import github from '../utils/github'
 import { info, isDir, error, warn } from '../utils'
 import { install, initGit, isMissing } from '../utils/setup'
 
@@ -236,6 +239,11 @@ export default asyncCommand({
       }
     }
 
+    //const token = await auth.getToken()
+    //const githubUser = await github.getUser(token)
+
+    // console.log(githubUser);
+    
     // Update `package.json` key
     if (pkgData) {
       print('Updating `name` within `package.json` file')
@@ -247,15 +255,6 @@ export default asyncCommand({
       if (!pkgData.sklib.main || pkgData.sklib.main === 'library.sketch') {
         pkgData.sklib.main = `${argv.slug}.sketch`
       }
-    }
-    // Find a `manifest.json`; use the first match, if any
-    const files = await globby(`${target}/**/manifest.json`)
-    const manifest = files[0] && JSON.parse(await fs.readFile(files[0]))
-    if (manifest && manifest.menu) {
-      print('Updating `title` within `manifest.json` file')
-      manifest.menu.title = argv.name
-      // Write changes to `manifest.json`
-      await fs.writeFile(files[0], JSON.stringify(manifest, null, 2))
     }
 
     if (pkgData) {

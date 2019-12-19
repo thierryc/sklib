@@ -13,6 +13,8 @@ var _yargs = _interopRequireDefault(require("yargs"));
 
 var _create = _interopRequireDefault(require("./commands/create"));
 
+var _login = _interopRequireDefault(require("./commands/login"));
+
 var _publish = _interopRequireDefault(require("./commands/publish"));
 
 var _package = _interopRequireDefault(require("../package.json"));
@@ -56,7 +58,7 @@ if (notifier.update && notifier.update.latest !== _package.default.version && !_
   });
 }
 
-_yargs.default.scriptName('sklib').command(_create.default).command(_publish.default).usage(`${_package.default.version}
+_yargs.default.scriptName('sklib').command(_create.default).command(_login.default).command(_publish.default).usage(`${_package.default.version}
 
 For help with a specific command, enter:
   sklib [command] help

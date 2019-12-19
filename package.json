@@ -19,6 +19,5 @@
     "rimraf": "^3.0.0"
   },
   "dependencies": {
-    "": "file:packages/sklib"
   }
 }

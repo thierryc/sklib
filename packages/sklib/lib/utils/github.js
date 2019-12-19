@@ -45,7 +45,9 @@ function getRegistryRepo(token, sklibConfig, repo) {
 
 var _default = {
   getUser(token) {
-    return (0, _request.request)(options(token, 'https://api.github.com/user'));
+    const result = (0, _request.request)(options(token, 'https://api.github.com/user'));
+    console.log(result);
+    return result;
   },
 
   getRepo(token, repo) {
