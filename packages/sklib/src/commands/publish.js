@@ -247,12 +247,12 @@ export default asyncCommand({
       (!packageJSON.sklib || !packageJSON.sklib.private)
     ) {
       print('Checking if the library is on the official library directory')
-      const upstreamPluginJSON = await github.getRegistryRepo(
+      const upstreamLibraryJSON = await github.getRegistryRepo(
         token,
         sklibConfig,
         repo
       )
-      if (!upstreamPluginJSON.existingPlugin) {
+      if (!upstreamLibraryJSON.existingLibrary) {
         if (spinner) spinner.stop()
         const { addToRegistry } = await prompt({
           type: 'confirm',
@@ -262,17 +262,17 @@ export default asyncCommand({
         })
         if (addToRegistry) {
           print('Publishing the library on the official library directory')
-          await github.addPluginToPluginsRegistryRepo(
+          await github.addLibraryToLibraryRegistryRepo(
             token,
             sklibConfig,
             repo,
-            upstreamPluginJSON
+            upstreamLibraryJSON
           )
         }
       }
     }
 
-    print('Plugin published!', 'succeed')
+    print('Library published!', 'succeed')
     console.log(`${sklibConfig.name}@${tag.replace('v', '')}`)
 
     if (argv.openRelease) {

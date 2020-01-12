@@ -32,7 +32,7 @@ function getRegistryRepo(token, sklibConfig, repo) {
       }
     })
     .then(res => ({
-      existingPlugin: res.libraries.find(
+      existingLibrary: res.libraries.find(
         library => library.title === sklibConfig.name || name === library.name
       ),
       libraries: res.libraries,
@@ -120,7 +120,7 @@ export default {
   // branch
   // update origin libraries.json
   // open PR
-  addPluginToPluginsRegistryRepo(token, sklibConfig, repo, upstreamPluginJSON) {
+  addLibraryToLibrariesRegistryRepo(token, sklibConfig, repo, upstreamLibraryJSON) {
     const [owner, name] = repo.split('/')
 
     function deleteExistingBranch(fork) {
@@ -215,7 +215,7 @@ export default {
         )
     }
 
-    function updatePluginJSON({ libraryUpdate, fork, sha }) {
+    function updateLibraryJSON({ libraryUpdate, fork, sha }) {
       const opts = options(
         token,
         `https://api.github.com/repos/${fork.full_name}/contents/libraries.json`,
@@ -239,7 +239,7 @@ export default {
         library.author = author.name
       }
 
-      const newPlugins = JSON.stringify(
+      const newLibraries = JSON.stringify(
         libraryUpdate.libraries.concat(library),
         null,
         2
@@ -247,10 +247,10 @@ export default {
       let buf
       if (typeof Buffer.from === 'function') {
         // Node 5.10+
-        buf = Buffer.from(newPlugins, 'utf-8')
+        buf = Buffer.from(newLibraries, 'utf-8')
       } else {
         // older Node versions
-        buf = new Buffer(newPlugins, 'utf-8') // eslint-disable-line
+        buf = new Buffer(newLibraries, 'utf-8') // eslint-disable-line
       }
       opts.json = {
         path: 'libraries.json',
@@ -293,8 +293,8 @@ Hope you are having a great day :)
       return request(prOptions)
     }
 
-    return forkUpstream(upstreamPluginJSON)
-      .then(updatePluginJSON)
+    return forkUpstream(upstreamLibraryJSON)
+      .then(updateLibraryJSON)
       .then(openPR)
   },
 }

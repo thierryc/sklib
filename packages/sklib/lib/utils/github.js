@@ -37,7 +37,7 @@ function getRegistryRepo(token, sklibConfig, repo) {
       file
     };
   }).then(res => ({
-    existingPlugin: res.libraries.find(library => library.title === sklibConfig.name || name === library.name),
+    existingLibrary: res.libraries.find(library => library.title === sklibConfig.name || name === library.name),
     libraries: res.libraries,
     file: res.file
   }));
@@ -45,8 +45,8 @@ function getRegistryRepo(token, sklibConfig, repo) {
 
 var _default = {
   getUser(token) {
-    const result = (0, _request.request)(options(token, 'https://api.github.com/user'));
-    console.log(result);
+    const result = (0, _request.request)(options(token, 'https://api.github.com/user')); // console.log(result);
+
     return result;
   },
 
@@ -107,7 +107,7 @@ var _default = {
   // branch
   // update origin libraries.json
   // open PR
-  addPluginToPluginsRegistryRepo(token, sklibConfig, repo, upstreamPluginJSON) {
+  addLibraryToLibrariesRegistryRepo(token, sklibConfig, repo, upstreamLibraryJSON) {
     const [owner, name] = repo.split('/');
 
     function deleteExistingBranch(fork) {
@@ -152,7 +152,7 @@ var _default = {
       })));
     }
 
-    function updatePluginJSON({
+    function updateLibraryJSON({
       libraryUpdate,
       fork,
       sha
@@ -179,15 +179,15 @@ var _default = {
         library.author = author.name;
       }
 
-      const newPlugins = JSON.stringify(libraryUpdate.libraries.concat(library), null, 2);
+      const newLibraries = JSON.stringify(libraryUpdate.libraries.concat(library), null, 2);
       let buf;
 
       if (typeof Buffer.from === 'function') {
         // Node 5.10+
-        buf = Buffer.from(newPlugins, 'utf-8');
+        buf = Buffer.from(newLibraries, 'utf-8');
       } else {
         // older Node versions
-        buf = new Buffer(newPlugins, 'utf-8'); // eslint-disable-line
+        buf = new Buffer(newLibraries, 'utf-8'); // eslint-disable-line
       }
 
       opts.json = {
@@ -227,7 +227,7 @@ Hope you are having a great day :)
       return (0, _request.request)(prOptions);
     }
 
-    return forkUpstream(upstreamPluginJSON).then(updatePluginJSON).then(openPR);
+    return forkUpstream(upstreamLibraryJSON).then(updateLibraryJSON).then(openPR);
   }
 
 };

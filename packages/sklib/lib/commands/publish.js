@@ -228,9 +228,9 @@ var _default = (0, _asyncCommand.default)({
 
     if (!argv.skipRegistry && (!packageJSON.sklib || !packageJSON.sklib.private)) {
       print('Checking if the library is on the official library directory');
-      const upstreamPluginJSON = await _github.default.getRegistryRepo(token, sklibConfig, repo);
+      const upstreamLibraryJSON = await _github.default.getRegistryRepo(token, sklibConfig, repo);
 
-      if (!upstreamPluginJSON.existingPlugin) {
+      if (!upstreamLibraryJSON.existingLibrary) {
         if (spinner) spinner.stop();
         const {
           addToRegistry
@@ -243,12 +243,12 @@ var _default = (0, _asyncCommand.default)({
 
         if (addToRegistry) {
           print('Publishing the library on the official library directory');
-          await _github.default.addPluginToPluginsRegistryRepo(token, sklibConfig, repo, upstreamPluginJSON);
+          await _github.default.addLibraryToLibraryRegistryRepo(token, sklibConfig, repo, upstreamLibraryJSON);
         }
       }
     }
 
-    print('Plugin published!', 'succeed');
+    print('Library published!', 'succeed');
     console.log(`${sklibConfig.name}@${tag.replace('v', '')}`);
 
     if (argv.openRelease) {

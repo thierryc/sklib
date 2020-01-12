@@ -77,7 +77,7 @@ export function isMissing(argv) {
   // Required data
   !argv.dest && ask('dest', 'Directory to create the app')
   // Extra data / flags
-  !argv.name && ask('name', "The plugin's name")
+  !argv.name && ask('name', "The Library's name")
   !argv.force &&
     ask('force', 'Enforce `dest` directory; will overwrite!', false)
   ask('install', 'Install dependencies', true) // defaults `true`, ask anyway

@@ -73,7 +73,7 @@ var _default = (0, _asyncCommand.default)({
       default: '.'
     },
     name: {
-      description: "The plugin's name",
+      description: "The library's name",
       type: 'string'
     },
     template: {
@@ -242,11 +242,11 @@ var _default = (0, _asyncCommand.default)({
       if (gitUser && gitUser.username && gitUser.email) {
         pkgData.author = `${gitUser.username.trim()} <${gitUser.email.trim()}>`;
       }
-    }
+    } //const token = await auth.getToken()
+    //const githubUser = await github.getUser(token)
+    // console.log(githubUser);
+    // Update `package.json` key
 
-    const token = await _auth.default.getToken();
-    const githubUser = await _github.default.getUser(token);
-    console.log(githubUser); // Update `package.json` key
 
     if (pkgData) {
       print('Updating `name` within `package.json` file');
