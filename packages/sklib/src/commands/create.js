@@ -51,7 +51,7 @@ export default asyncCommand({
       default: '.',
     },
     name: {
-      description: "The plugin's name",
+      description: "The library's name",
       type: 'string',
     },
     template: {
@@ -248,13 +248,16 @@ export default asyncCommand({
     if (pkgData) {
       print('Updating `name` within `package.json` file')
       pkgData.name = argv.slug
+
       if (!pkgData.sklib) {
         pkgData.sklib = {}
       }
+
       pkgData.sklib.name = argv.name
       if (!pkgData.sklib.main || pkgData.sklib.main === 'library.sketch') {
         pkgData.sklib.main = `${argv.slug}.sketch`
       }
+
     }
 
     if (pkgData) {
