@@ -10,7 +10,8 @@
     "preserve": "npm run build",
     "serve": "serve -s dist",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "prepublish": "npm run build && npm run deploy"
   },
   "repository": {
     "type": "git",

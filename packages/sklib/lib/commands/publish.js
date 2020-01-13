@@ -84,10 +84,10 @@ var _default = (0, _asyncCommand.default)({
       type: 'boolean',
       alias: 'o'
     },
-    'skip-registry': {
+    /* 'skip-registry': {
       description: 'Do not publish to the libraries registry if not already present.',
       type: 'boolean'
-    },
+    }, */
     'download-url': {
       description: "Specify the new version's download URL (default to the asset of the release created on GitHub.com).",
       type: 'string'
@@ -226,7 +226,7 @@ var _default = (0, _asyncCommand.default)({
       await _github.default.publishRelease(token, repo, releaseId);
     }
 
-    if (!argv.skipRegistry && (!packageJSON.sklib || !packageJSON.sklib.private)) {
+   /*  if (!argv.skipRegistry && (!packageJSON.sklib || !packageJSON.sklib.private)) {
       print('Checking if the library is on the official library directory');
       const upstreamLibraryJSON = await _github.default.getRegistryRepo(token, sklibConfig, repo);
 
@@ -246,7 +246,7 @@ var _default = (0, _asyncCommand.default)({
           await _github.default.addLibraryToLibraryRegistryRepo(token, sklibConfig, repo, upstreamLibraryJSON);
         }
       }
-    }
+    } */
 
     print('Library published!', 'succeed');
     console.log(`${sklibConfig.name}@${tag.replace('v', '')}`);
